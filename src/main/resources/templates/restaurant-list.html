@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Restaurants</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<div class="container">
+		<h1 class="title">Restaurants</h1>
+		<form th:action="@{/restaurant/list}" method="get" class="search-form">
+			<input type="text" name="keyword" th:value="${keyword}"
+				placeholder="Search by name or cuisine...">
+			<button type="submit">Search</button>
+		</form>
+		<a th:href="@{/restaurant/add}" class="btn-add">+ Add Restaurant</a>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Cuisine</th>
+					<th>Contact</th>
+					<th>Address</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="r: ${list}">
+					<td th:text="${r.id}"></td>
+					<td th:text="${r.name}"></td>
+					<td th:text="${r.cuisine}"></td>
+					<td th:text="${r.contact}"></td>
+					<td th:text="${r.address}"></td>
+					<td><a th:href="@{'/restaurant/edit/' + ${r.id}}" class="edit">Edit</a>
+						<a th:href="@{'/restaurant/delete/' + ${r.id}}" class="delete"
+						onclick="return confirm('Delete?')">Delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

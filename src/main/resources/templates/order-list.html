@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Orders</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<div class="container">
+		<h1 class="title">Orders</h1>
+		<form th:action="@{/order/list}" method="get" class="search-form">
+			<input type="text" name="keyword" th:value="${keyword}"
+				placeholder="Search by customer or status...">
+			<button type="submit">Search</button>
+		</form>
+		<a th:href="@{/order/add}" class="btn-add">+ Create Order</a>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Order Date</th>
+					<th>Customer</th>
+					<th>Total</th>
+					<th>Status</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="o: ${list}">
+					<td th:text="${o.id}"></td>
+					<td th:text="${o.orderDate}"></td>
+					<td th:text="${o.customer != null ? o.customer.name : '—'}"></td>
+					<td th:text="${o.totalAmount}"></td>
+					<td th:text="${o.status}"></td>
+					<td><a th:href="@{'/order/edit/' + ${o.id}}" class="edit">Edit</a>
+						<a th:href="@{'/order/delete/' + ${o.id}}" class="delete"
+						onclick="return confirm('Delete?')">Delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

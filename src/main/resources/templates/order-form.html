@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Order</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container form-container">
+    <h1 th:text="${order.id == null} ? 'Create Order' : 'Edit Order'"></h1>
+
+    <form th:action="@{/order/save}" th:object="${order}" method="post">
+
+        <!-- ✅ REQUIRED for EDIT -->
+        <input type="hidden" th:field="*{id}"/>
+
+        <!-- ✅ CUSTOMER -->
+        <label>Customer</label>
+        <select th:field="*{customer.id}" required>
+            <option value="">-- Select Customer --</option>
+            <option th:each="c : ${customers}"
+                    th:value="${c.id}"
+                    th:text="${c.name}">
+            </option>
+        </select>
+
+        <!-- ✅ MENU ITEMS -->
+        <label>Select Items & Quantity</label>
+        <div th:each="mi : ${menuItems}">
+            <input type="checkbox" name="itemIds" th:value="${mi.id}">
+            <span th:text="${mi.name + ' (₹' + mi.price + ')'}"></span>
+            Qty:
+            <input type="number" name="quantities" value="1" min="1" style="width:60px;">
+            <br/>
+        </div>
+
+        <!-- ✅ STATUS (already correct) -->
+        <label>Status</label>
+        <select th:field="*{status}">
+            <option value="Pending">Pending</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+        </select>
+
+        <button type="submit" class="btn-save">Place Order</button>
+        <a th:href="@{/order/list}" class="btn-cancel">Back</a>
+    </form>
+</div>
+</body>
+</html>

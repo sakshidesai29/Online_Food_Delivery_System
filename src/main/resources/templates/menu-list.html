@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Menu Items</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<div class="container">
+		<h1 class="title">Menu Items</h1>
+		<form th:action="@{/menu/list}" method="get" class="search-form">
+			<input type="text" name="keyword" th:value="${keyword}"
+				placeholder="Search items...">
+			<button type="submit">Search</button>
+		</form>
+
+		<a th:href="@{/menu/add}" class="btn-add">+ Add Menu Item</a>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Restaurant</th>
+					<th>Price</th>
+					<th>Available</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="m: ${list}">
+					<td th:text="${m.id}"></td>
+					<td th:text="${m.name}"></td>
+					<td th:text="${m.restaurant != null ? m.restaurant.name : '—'}"></td>
+					<td th:text="${m.price}"></td>
+					<td th:text="${m.available}"></td>
+					<td><a th:href="@{'/menu/edit/' + ${m.id}}" class="edit">Edit</a>
+						<a th:href="@{'/menu/delete/' + ${m.id}}" class="delete"
+						onclick="return confirm('Delete?')">Delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
